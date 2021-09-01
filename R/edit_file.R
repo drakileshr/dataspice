@@ -43,7 +43,7 @@ add_attrib<- function(metadata_dir = file.path("data", "metadata"), file) {
            call. = FALSE)
     }
     data<- c(dat, extraAttrib)
-    write.csv(dat, file.path."/attributes.csv")
+    write.csv(dat, file.path)
     edit_file(metadata_dir, "attributes.csv")
     }
     #' @inherit edit_attributes
