@@ -24,9 +24,10 @@ add_attributes(extraAttrib)<-function(metadata_dir = file.path("data","metadata"
   add_attrib(metadata_dir,"attributes.csv")
 }
 
+filepath <- "analysis/data/metadata/"
 add_attrib<- function(metadata_dir = file.path("data", "metadata"), file) {
   
-  filepath <- file.path(metadata_dir, file)
+  filepath <- "analysis/data/metadata/attributes.csv"
   
   if (!file.exists(filepath)) {
     stop("File '", filepath, "' does not exist. Run create_spice() first.",
@@ -42,10 +43,11 @@ add_attrib<- function(metadata_dir = file.path("data", "metadata"), file) {
       stop("File '", filepath, "' has some attributes already added. To avoid losing data, backup current files and initiate dataspice again by running create_spice() first.",
            call. = FALSE)
     }
-    data<- c(dat, extraAttrib)
+    dat<- c(dat, extraAttrib)
     write.csv(dat, file.path)
     edit_file(metadata_dir, "attributes.csv")
-    }
+  }
+  
     #' @inherit edit_attributes
   #' @export
   edit_biblio <- function(metadata_dir = file.path("data", "metadata")) {
