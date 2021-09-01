@@ -1,1 +1,1 @@
-fileName,variableName,description,unitText
+fileName,variableName,description,unitText,ReadableVariableName,allowedValues,synonymsVariable,otherResources,formatRule,emptyValueCode,naValueCode,isRequireBoolean
