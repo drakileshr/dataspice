@@ -32,7 +32,7 @@ add_attrib <-
     
       dat <- c(dat, extraAttrib)
       write.csv(dat, file.path)
-      edit_attributes(metadata_dir, "attributes.csv")
+      edit_attributes()
   }
     #' @inherit edit_attributes
   #' @export
