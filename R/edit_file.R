@@ -24,32 +24,7 @@ add_attributes(extraAttrib)<-function(metadata_dir = file.path("data","metadata"
   add_attrib(metadata_dir,"attributes.csv")
 }
 
-add_attrib <-
-  function(metadata_dir = file.path("data", "metadata"), file) {
-    filepath <- "analysis/data/metadata/attributes.csv"
-    
-    if (!file.exists(filepath)) {
-      stop("File '",
-           filepath,
-           "' does not exist. Run create_spice() first.",
-           call. = FALSE)
-    }
-#if (file.exists(filepath)) {
-      dat <- readr::read_csv(file = filepath,
-                             col_types = readr::cols(.default = readr::col_character()))
-      # pad if no data
-      if (nrow(dat) > 0) {
-        stop(
-          "File '",
-          filepath,
-          "' has some attributes already added. To avoid losing data, backup current files and initiate dataspice again by running create_spice() first.",
-          call. = FALSE
-        )
-#}
-      dat <- c(dat, extraAttrib)
-      write.csv(dat, file.path)
-      edit_file(metadata_dir, "attributes.csv")
-}
+
   
     #' @inherit edit_attributes
   #' @export
