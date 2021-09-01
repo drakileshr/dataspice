@@ -17,10 +17,98 @@
 #' # Specifying a different dataspice metadata directory
 #' edit_attributes(metadata_dir = "analysis/data/metadata/"))
 #'}
-edit_attributes <- function(metadata_dir = file.path("data", "metadata")) {
+edit_attributes(extraAttributes=NULL) <- function(metadata_dir = file.path("data", "metadata")) {
   edit_file(metadata_dir, "attributes.csv")
 }
+add_attributes(extraAttrib)<-function(metadata_dir = file.path("data","metadata")) { 
+  add_attrib(metadata_dir,"attributes.csv")
+}
+            
+            
+add_attrib <- function(metadata_dir = file.path("data", "metadata"), file) {
 
+  filepath <- file.path(metadata_dir, file)
+
+  dat <- readr::read_csv(file = filepath,
+                           col_types = readr::cols(
+                             .default = readr::col_character()
+                           ))
+    # pad if no data
+  if (!file.exists(filepath)) {
+    stop("File '", filepath, "' does not exist. Run create_spice() first.",
+         call. = FALSE)
+  }
+
+  ifelse (nrow(dat) > 0) {
+  stop("File '", filepath, "' already has some data. Kindly rename it before proceeding",
+         call. = FALSE),
+    dat<- c(dat,extraAttrib)
+    }
+
+  file_choices <- c(
+    "attributes.csv")
+  
+  ui <- shiny::shinyUI(
+    shiny::fluidPage(
+      shiny::titlePanel(paste0("Populate the ", file, " table")),
+      shiny::helpText("Interactive application to read in ",
+                      shiny::code("dataspice"),
+                      "metadata templates and populate with your own ",
+                      "metadata."),
+
+      # Header panel
+      shiny::wellPanel(
+        shiny::fluidRow(
+          shiny::column(8,
+                        shiny::uiOutput("message", inline = TRUE)
+          ),
+          shiny::column(4, align = "right",
+                 shiny::actionButton("save", "Save Changes"))
+        )
+      ),
+      # side panel
+      shiny::sidebarLayout(
+        # side panel contains reference details. conditional on file.
+        shiny::sidebarPanel(
+          if (file == "attributes.csv") {
+            list(
+              shiny::h4("Variable metadata"),
+              shiny::h6(
+                "fileName: The name of the input data file(s). ",
+                "Don't change this."
+              ),
+              shiny::h6(
+                "variableName: The name of the measured variable. ",
+                "Don't change this."
+              ),
+              shiny::h6(
+                "description: A written description of the variable measured."
+              ),
+              shiny::h6(
+                "unitText: The units in which the variable was measured."
+              ),
+              shiny::helpText(
+                "Use",
+                shiny::code("prep_attributes()"),
+                "to extract",
+                shiny::strong("variableName"),
+                " from data files.")
+            )
+          }        
+                shiny::mainPanel(
+          # table editing helptext
+          shiny::helpText("Right-click on the table to delete/insert rows.",
+                   "Double-click on a cell to edit"),
+          # table
+          rhandsontable::rHandsontableOutput("hot"),
+          shiny::br()
+        )
+      )
+    )
+  )
+
+  
+          
 #' @inherit edit_attributes
 #' @export
 edit_biblio <- function(metadata_dir = file.path("data", "metadata")) {
