@@ -17,7 +17,7 @@
 #' # Specifying a different dataspice metadata directory
 #' edit_attributes(metadata_dir = "analysis/data/metadata/"))
 #'}
-edit_attributes(extraAttributes=NULL) <- function(metadata_dir = file.path("data", "metadata")) {
+edit_attributes <- function(metadata_dir = file.path("data", "metadata")) {
   edit_file(metadata_dir, "attributes.csv")
 }
 add_attributes(extraAttrib)<-function(metadata_dir = file.path("data","metadata")) { 
