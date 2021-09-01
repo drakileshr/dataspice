@@ -26,13 +26,24 @@ add_attributes<-function(metadata_dir = file.path("data","metadata"),extraAttrib
 add_attrib <-
   function(metadata_dir = file.path("data", "metadata"), file = "attributes.csv", extraAttrib) {
     filepath <- file.path(metadata_dir, file)
+      if (!file.exists(filepath)) {
+      stop("File '", filepath, "' does not exist. Run create_spice() first.",
+           call. = FALSE)
+    }
+    
+    file_choices <- c(
+      "attributes.csv",
+      "biblio.csv",
+      "access.csv",
+      "creators.csv")
+    file <- match.arg(file, file_choices)
     dat <- readr::read_csv(file = filepath,
                              col_types = readr::cols(.default = readr::col_character()))
       # pad if no data
     
       dat <- c(dat, extraAttrib)
       write.csv(dat, file.path)
-      edit_attributes()
+      edit_file(metadata_dir, "attributes.csv")
   }
     #' @inherit edit_attributes
   #' @export
